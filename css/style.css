@@ -1,0 +1,45 @@
+table {
+    border: 1px solid #aaa;
+    text-align: center;
+    line-height: 25px;
+}
+
+tr:nth-child(even) {
+    background: #fff;
+}
+
+tr:nth-child(odd) {
+    background: #ccc;
+}
+
+td {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dragged {
+    opacity: 0.4;
+}
+
+.drag-over td{
+    padding-bottom: 20px;
+    padding-top: 0;
+    opacity: 0.7;
+}
+
+.bottom-up td {
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+
+tr.selected {
+    background: #81b71a !important;
+}
+
+div#logs {
+    margin-top: 20px;
+}
+
+div#logs span {
+    display: block;
+}
