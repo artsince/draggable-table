@@ -21,7 +21,9 @@ var createRow = function (colSize, index) {
 
 var rowSize = 20, columnSize = 20;
 var table = document.querySelector('table');
-var $table = $_DT(table);
+var $table = $_DT(table, {
+    headers: new Array(rowSize).join().split(',').map(function (item, index) { return ++index; })
+});
 
 for(var i = 0; i < rowSize; i += 1) {
     $table.appendRow(createRow(columnSize, i));

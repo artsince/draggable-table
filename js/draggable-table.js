@@ -7,10 +7,29 @@
  * this function uses css classes defined in the style.css file. Make sure you include that file, and
  * feel free to modify them to look better.
  */
-var $_DT = function (table) {
+var $_DT = function (table, options) {
     var _tbl = table;
+    var _options = options || {};
     var _listeners = {};
 
+    if(_options.headers) {
+        (function () {
+            var len = _options.headers.length, i,
+                thead = document.createElement('thead'),
+                tr = document.createElement('tr');
+
+
+            // insert this header as the first child
+            _tbl.insertBefore(thead, _tbl.firstChild);
+            thead.appendChild(tr);
+
+            for(i = 0; i < len; i += 1) {
+                var th = document.createElement('th');
+                th.innerHTML = _options.headers[i];
+                tr.appendChild(th);
+            }
+        }());
+    }
     /* generic event listener implementation, though practically
      * only 'moved' events are triggered
      */
