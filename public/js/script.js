@@ -33,7 +33,7 @@
     }
 
     $table.on('moved', function (obj) {
-        var logDiv = document.getElementById('logs');
+        var logDiv = document.querySelector('.logs');
         var span = document.createElement('span');
         span.innerHTML = 'row with id <strong>' + obj.id + '</strong> moved to index <strong>' + obj.index + '</strong>.';
         logDiv.appendChild(span);

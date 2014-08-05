@@ -36,6 +36,22 @@ function $_DT(table, options) {
         }());
     }
 
+    if(!_options.styles) {
+        _options.styles = {};
+    }
+    if(!_options.styles.onselected) {
+        _options.styles.onselected = 'selected';
+    }
+    if(!_options.styles.ondragstart) {
+        _options.styles.ondragstart = 'dragged';
+    }
+    if(!_options.styles.ondraggedover) {
+        _options.styles.ondraggedover = 'drag-over';
+    }
+    if(!_options.styles.ondraggedoverfrombottom) {
+        _options.styles.ondraggedoverfrombottom = 'bottom-up';
+    }
+
     /* generic event listener implementation, though practically
      * only 'moved' events are triggered
      */
@@ -59,7 +75,7 @@ function $_DT(table, options) {
         _dragged_id = ev.target.id;
 
         var transferredRow = document.getElementById(_dragged_id);
-        transferredRow.classList.add('dragged');
+        transferredRow.classList.add(_options.styles.ondragstart);
     };
 
     // method for ondragleave event
@@ -72,11 +88,11 @@ function $_DT(table, options) {
 
         var transferredRow = document.getElementById(_dragged_id);
 
-        if(ev.target.parentNode.classList.contains('drag-over')) {
-            ev.target.parentNode.classList.remove('drag-over');
+        if(ev.target.parentNode.classList.contains(_options.styles.ondraggedover)) {
+            ev.target.parentNode.classList.remove(_options.styles.ondraggedover);
 
             if(parseInt(ev.target.parentNode.getAttribute('list-index'), 10) < parseInt(transferredRow.getAttribute('list-index'), 10)) {
-                ev.target.parentNode.classList.remove('bottom-up');
+                ev.target.parentNode.classList.remove(_options.styles.ondraggedoverfrombottom);
             }
         }
     };
@@ -91,11 +107,11 @@ function $_DT(table, options) {
 
         var draggedItem = document.getElementById(_dragged_id);
 
-        if(!ev.target.parentNode.classList.contains('drag-over')) {
-            ev.target.parentNode.classList.add('drag-over');
+        if(!ev.target.parentNode.classList.contains(_options.styles.ondraggedover)) {
+            ev.target.parentNode.classList.add(_options.styles.ondraggedover);
 
             if(parseInt(ev.target.parentNode.getAttribute('list-index'), 10) < parseInt(draggedItem.getAttribute('list-index'), 10)) {
-                ev.target.parentNode.classList.add('bottom-up');
+                ev.target.parentNode.classList.add(_options.styles.ondraggedoverfrombottom);
             }
         }
 
@@ -118,11 +134,11 @@ function $_DT(table, options) {
             ev.target.parentNode.parentNode.insertBefore(transferredRow, ev.target.parentNode);
         }
 
-        if(ev.target.parentNode.classList.contains('drag-over')) {
-            ev.target.parentNode.classList.remove('drag-over');
+        if(ev.target.parentNode.classList.contains(_options.styles.ondraggedover)) {
+            ev.target.parentNode.classList.remove(_options.styles.ondraggedover);
 
             if(parseInt(ev.target.parentNode.getAttribute('list-index'), 10) < parseInt(transferredRow.getAttribute('list-index'), 10)) {
-                ev.target.parentNode.classList.remove('bottom-up');
+                ev.target.parentNode.classList.remove(_options.styles.ondraggedoverfrombottom);
             }
         }
 
@@ -146,7 +162,7 @@ function $_DT(table, options) {
      */
     var _fnDragEnd = function () {
         var transferredRow = document.getElementById(_dragged_id);
-        transferredRow.classList.remove('dragged');
+        transferredRow.classList.remove(_options.styles.ondragstart);
         _dragged_id = '';
     };
 
@@ -179,12 +195,12 @@ function $_DT(table, options) {
      * method for onmousedown event. this method is used to highlight the selected row.
      */
     var _fnMouseDown = function () {
-        var prevSelected = document.querySelector('.selected');
+        var prevSelected = document.querySelector('.' + _options.styles.onselected);
         if(prevSelected) {
-            prevSelected.classList.remove('selected');
+            prevSelected.classList.remove(_options.styles.onselected);
         }
 
-        this.classList.add('selected');
+        this.classList.add(_options.styles.onselected);
     };
 
     /*
