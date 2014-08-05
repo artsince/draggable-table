@@ -7,7 +7,7 @@ var createRow = function (colSize, index) {
     var td;
 
     tr.id = 'r' + index;
-    tr.setAttribute('list-index', index);
+    //tr.setAttribute('list-index', index);
 
     for(i = 0; i < colSize; i += 1) {
         td = document.createElement('td');

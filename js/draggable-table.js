@@ -11,6 +11,7 @@ var $_DT = function (table, options) {
     var _tbl = table;
     var _options = options || {};
     var _listeners = {};
+    var _rowCount = 0;
 
     if(_options.headers) {
         (function () {
@@ -30,6 +31,7 @@ var $_DT = function (table, options) {
             }
         }());
     }
+
     /* generic event listener implementation, though practically
      * only 'moved' events are triggered
      */
@@ -41,11 +43,18 @@ var $_DT = function (table, options) {
         _listeners[event].push(callback);
     };
 
+    /*
+        due to some bug or security limitation I am not sure about, it seems like
+        ex.dataTransfer.getData method does not return the data I set in drag start.
+        To work around this issue, I am using the id in _dragged_id variable.
+     */
+    var _dragged_id = '';
+
     // method for ondragstart event
     var _fnDragStart = function (ev) {
-        ev.dataTransfer.setData("Text", ev.target.id);
+        _dragged_id = ev.target.id;
 
-        var transferredRow = document.getElementById(ev.target.id);
+        var transferredRow = document.getElementById(_dragged_id);
         transferredRow.classList.add('dragged');
     };
 
@@ -53,11 +62,11 @@ var $_DT = function (table, options) {
     var _fnDragLeave = function (ev) {
         ev.preventDefault();
 
-        if(ev.target.parentNode.id == ev.dataTransfer.getData("Text")) {
+        if(ev.target.parentNode.id === _dragged_id) {
             return;
         }
 
-        var transferredRow = document.getElementById(ev.dataTransfer.getData('Text'));
+        var transferredRow = document.getElementById(_dragged_id);
 
         if(ev.target.parentNode.classList.contains('drag-over')) {
             ev.target.parentNode.classList.remove('drag-over');
@@ -72,11 +81,11 @@ var $_DT = function (table, options) {
     var _fnDragOver = function (ev) {
         ev.preventDefault();
 
-        if(ev.target.parentNode.id == ev.dataTransfer.getData("Text")) {
+        if(ev.target.parentNode.id === _dragged_id) {
             return;
         }
 
-        var draggedItem = document.getElementById(ev.dataTransfer.getData('Text'));
+        var draggedItem = document.getElementById(_dragged_id);
 
         if(!ev.target.parentNode.classList.contains('drag-over')) {
             ev.target.parentNode.classList.add('drag-over');
@@ -92,8 +101,8 @@ var $_DT = function (table, options) {
     var _fnDrop = function (ev) {
         ev.preventDefault();
         
-        var dataId = ev.dataTransfer.getData("Text");
-        var transferredRow = document.getElementById(dataId);
+        var data_id = _dragged_id;
+        var transferredRow = document.getElementById(data_id);
 
         var draggedIndex = parseInt(transferredRow.getAttribute('list-index'), 10);
         var droppedIndex = parseInt(ev.target.parentNode.getAttribute('list-index'), 10);
@@ -120,17 +129,21 @@ var $_DT = function (table, options) {
         if(_listeners.moved) {
             for(var i = 0; i < _listeners.moved.length; i += 1) {
                 _listeners.moved[i].call(null, {
-                    id: dataId,
+                    id: data_id,
                     index: parseInt(transferredRow.getAttribute('list-index'), 10)
                 });
             }
         }
     };
 
-    // method for ondragend event
+    /* 
+        method for ondragend event
+        setting _dragged_id to empty, even though it is not really necessary
+     */
     var _fnDragEnd = function (ev) {
-        var transferredRow = document.getElementById(ev.target.id);
+        var transferredRow = document.getElementById(_dragged_id);
         transferredRow.classList.remove('dragged');
+        _dragged_id = '';
     };
 
     /*
@@ -183,6 +196,10 @@ var $_DT = function (table, options) {
         tr.addEventListener('dragend', _fnDragEnd, false);
 
         tr.addEventListener('mousedown', _fnMouseDown, false);
+
+        if(!tr.getAttribute('list-index')) {
+            tr.setAttribute('list-index', _rowCount++);
+        }
 
         _tbl.appendChild(tr);
     };
