@@ -24,8 +24,24 @@ Use the ```appendRow()``` method to add rows to the table. this library keeps tr
 var tr = fnRowCreator(); // your custom row creation method
 $_table.appendRow(tr);
 ```
+You can also override style definitions in the ```draggable-table.css``` file with the options parameter.
+```js
+var options = {
+    style: {
+        onselected: 'selected',
+        ondragstart: 'dragged',
+        ondraggedover: 'drag-over',
+        ondraggedoverfrombottom: 'bottom-up'
+    }
+}
+```
+* onselected: the style class to be applied on the row clicked. the previous clicked row will lose this class definition.
+* ondragstart: the style class to be applied on the row being dragged. It is removed once the drag is over.
+* ondraggedover: the style to be applied on the row the dragged row is over. it is removed when on the drag exit.
+* ondraggedoverfrombottom: this style class is added in addition to ```ondraggedover``` when the dragged row is originally below this row. removed on drag exit.
 
-You can track drag results like this:
+
+Finally, you can listen to drag actions like this:
 ```
 $_table.on('moved', function (obj) {
     'row with id' + obj.id + ' moved to index ' + obj.index + '.';

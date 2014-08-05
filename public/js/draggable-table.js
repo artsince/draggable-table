@@ -1,4 +1,4 @@
- /* exported $_DT */
+"   " /* exported $_DT */
 
 /*
  * $_DT function takes a table HTML element as a parameter.
