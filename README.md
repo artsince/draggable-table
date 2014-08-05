@@ -3,9 +3,15 @@
 This is a helper method to make a table draggable by modifying the row attributes and drag and drop event handlers. 
 
 #### Usage
-Currently the assumption is that you already have an empty table element in your DOM and you will fill the table rows dynamically. 
+Currently the assumption is that you already have an empty table element in your DOM and you will fill the table rows dynamically.
 
-First you initialize the draggable-table instance:
+First include necessary files:
+```html
+<link rel="stylesheet" type="text/css" href="css/draggable-table.css">
+<script type="text/javascript" src="js/draggable-table.js"></script>
+```
+
+Then initialize the draggable-table instance:
 ```js
 var table = document.querySelector('#myTable');
 var $_table = $_DT(table);
@@ -35,10 +41,10 @@ var options = {
     }
 }
 ```
-* onselected: the style class to be applied on the row clicked. the previous clicked row will lose this class definition.
-* ondragstart: the style class to be applied on the row being dragged. It is removed once the drag is over.
-* ondraggedover: the style to be applied on the row the dragged row is over. it is removed when on the drag exit.
-* ondraggedoverfrombottom: this style class is added in addition to ```ondraggedover``` when the dragged row is originally below this row. removed on drag exit.
+* _onselected_: the style class to be applied on the row clicked. the previous clicked row will lose this class definition.
+* _ondragstart_: the style class to be applied on the row being dragged. It is removed once the drag is over.
+* _ondraggedover_: the style to be applied on the row the dragged row is over. it is removed when on the drag exit.
+* _ondraggedoverfrombottom_: this style class is added in addition to ```ondraggedover``` when the dragged row is originally below this row. removed on drag exit.
 
 
 Finally, you can listen to drag actions like this:
