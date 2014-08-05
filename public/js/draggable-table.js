@@ -1,3 +1,5 @@
+ /* exported $_DT */
+
 /*
  * $_DT function takes a table HTML element as a parameter.
  * Adding rows to the the table with the <code>appendRow</code> method will turn these rows into
@@ -7,7 +9,9 @@
  * this function uses css classes defined in the style.css file. Make sure you include that file, and
  * feel free to modify them to look better.
  */
-var $_DT = function (table, options) {
+function $_DT(table, options) {
+    "use strict";
+
     var _tbl = table;
     var _options = options || {};
     var _listeners = {};
@@ -140,7 +144,7 @@ var $_DT = function (table, options) {
         method for ondragend event
         setting _dragged_id to empty, even though it is not really necessary
      */
-    var _fnDragEnd = function (ev) {
+    var _fnDragEnd = function () {
         var transferredRow = document.getElementById(_dragged_id);
         transferredRow.classList.remove('dragged');
         _dragged_id = '';
@@ -174,7 +178,7 @@ var $_DT = function (table, options) {
     /*
      * method for onmousedown event. this method is used to highlight the selected row.
      */
-    var _fnMouseDown = function (ev) {
+    var _fnMouseDown = function () {
         var prevSelected = document.querySelector('.selected');
         if(prevSelected) {
             prevSelected.classList.remove('selected');
@@ -198,7 +202,8 @@ var $_DT = function (table, options) {
         tr.addEventListener('mousedown', _fnMouseDown, false);
 
         if(!tr.getAttribute('list-index')) {
-            tr.setAttribute('list-index', _rowCount++);
+            tr.setAttribute('list-index', _rowCount);
+            _rowCount += 1;
         }
 
         _tbl.appendChild(tr);
@@ -208,4 +213,4 @@ var $_DT = function (table, options) {
         appendRow: _fnAppendRow,
         on: _fnAddListener
     };
-};
+}

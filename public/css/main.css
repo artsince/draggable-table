@@ -1,3 +1,9 @@
+p {
+    font: sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 table {
     border: 1px solid #aaa;
     text-align: center;
@@ -17,29 +23,10 @@ td {
     padding-right: 5px;
 }
 
-.dragged {
-    opacity: 0.4;
-}
-
-.drag-over td{
-    padding-bottom: 20px;
-    padding-top: 0;
-    opacity: 0.7;
-}
-
-.bottom-up td {
-    padding-top: 20px;
-    padding-bottom: 0;
-}
-
-tr.selected {
-    background: #81b71a !important;
-}
-
-div#logs {
+.logs {
     margin-top: 20px;
 }
 
-div#logs span {
+.logs span {
     display: block;
 }

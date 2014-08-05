@@ -1,0 +1,21 @@
+/*
+    these classes are used by the draggable-table.js file
+ */
+.dragged {
+    opacity: 0.4;
+}
+
+.drag-over td{
+    padding-bottom: 20px;
+    padding-top: 0;
+    opacity: 0.7;
+}
+
+.bottom-up td {
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+
+tr.selected {
+    background: #81b71a !important;
+}
